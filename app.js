@@ -23,8 +23,55 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+
+function getPosts()
+{
+	var jsonString = "{"; // Dummy placeholder data.
+	for (var i = 0; i < 14; ++i)
+	{
+		jsonString += i+' ';
+	}
+	jsonString += "}"
+	return jsonString;
+}
+
+/// Our site-parts.
+/// Index, display some offers?
+app.get('/', function(req, res){
+	var renderResult = res.render('index', 
+			{
+				title: 'Home'
+//		posts: '' //getPosts()
+			}
+		);
+	console.log('${renderResult}');
+
+});
+
+/// Service if others want to integrate offers elsewhere?
+app.get('/alldata', function(req, response)
+{
+   response.writeHead(200, {'Content-Type': 'text/plain'});   
+   // Send the response body as "Hello World"
+   response.end(getPosts());
+//	document.close();
+});
+
+/// Just some info.
+app.get('/about', function(req, res){
+  res.render('about', {
+    title: 'About'
+  });
+});
+/// Contact info?
+app.get('/contact', function(req, res){
+  res.render('contact', {
+    title: 'Contact'
+  });
+});
+
+// app.use('/', routes);
+// app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,6 +103,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
