@@ -9,6 +9,17 @@ block content
 		li More stuffs.
 		li #[a(href="/alldata") All data].
 
-	p All offers?
-	ul 
-		li All offers?
+	p All offers:		
+	ul
+	- for post in posts
+		if post[2] == 1
+			- var action = "buy"
+		if post[2] == 2
+			- var action = "sell"
+		if post[2] == 3
+			- var action = "auction"
+		
+		li Offer by #{post[0]} to #{action} #{post[1]}, for #{post[3]} euros. Description: #{post[4]}
+		
+//	p All data raw: !{posts}
+

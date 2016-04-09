@@ -26,26 +26,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 function getPosts()
 {
-	var jsonString = "{"; // Dummy placeholder data.
-	for (var i = 0; i < 14; ++i)
-	{
-		jsonString += i+' ';
-	}
-	jsonString += "}"
-	return jsonString;
+	var json = [["Emil", "Chair", 2, 10, "A very nice chair"], ["Nhi", "LOAS-sized mattress", 1, 15, "Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]];
+	//{["Emil", "Chair", 2, 10, "A very nice chair\"], [\"Nhi\", \"LOAS-sized mattress\", 1, 15, \"Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]}
+	return json;
 }
+
+// Default format. 1 for buy, 2 for sell, 3 for aution.
+// [offererName, nameOfObject, buyOrSellOrAuction1-3, priceDesiredOrStarting, shortDescription]
 
 /// Our site-parts.
 /// Index, display some offers?
 app.get('/', function(req, res){
 	var renderResult = res.render('index', 
 			{
-				title: 'Home'
-//		posts: '' //getPosts()
+				title: 'Home',
+			//	languages: 'lall'
+				posts: getPosts()
 			}
 		);
-	console.log('${renderResult}');
-
+	console.log(renderResult);
+	
 });
 
 /// Service if others want to integrate offers elsewhere?
@@ -53,7 +53,7 @@ app.get('/alldata', function(req, response)
 {
    response.writeHead(200, {'Content-Type': 'text/plain'});   
    // Send the response body as "Hello World"
-   response.end(getPosts());
+   response.end(JSON.stringify(getPosts()));
 //	document.close();
 });
 
