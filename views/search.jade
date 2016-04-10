@@ -1,0 +1,48 @@
+extends layout
+
+block content
+	h1= title
+	form(name="input", action="/search", method="GET")
+		div.input
+			span.label Item   
+			input(type="text", name="item")
+			br 
+			br
+		div.input
+			span.label Username  
+			input(type="text", name="username")
+			br 
+			br
+		div.input
+			| Price from  
+			input(type="text", name="startPrice")
+			|  to  
+			input(type="text", name="maxPrice")
+			br
+			br
+		div.input
+			input(type="radio", name="funcs", value="", checked='true')
+			| All  
+			input(type="radio", name="funcs", value="1")
+			| Buy  
+			input(type="radio", name="funcs", value="2")
+			| Sell  
+			input(type="radio", name="funcs", value="3")
+			| Auction  
+			br
+			br
+		div.actions
+			input(type="submit", value="Search", action="/search")
+		-if (searchResult != null)
+			p Result:		
+			ul
+			- for post in searchResult
+				if post.funcs == 1
+					- var action = "buy"
+				if post.funcs == 2
+					- var action = "sell"
+				if post.funcs == 3
+					- var action = "auction"
+				li Offer by #{post.username} to #{action} #{post.item}, for #{post.price} euros. Description: #{post.description}
+		-else
+			p No result

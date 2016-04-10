@@ -33,13 +33,32 @@ function getPosts()
 	var readingFile = true;
 	/// Save new offer to file.
 	JSONdata = jsonfile.readFileSync(file);
-	console.log("JSONdata: "+JSON.stringify(JSONdata));
+	//console.log("JSONdata: "+JSON.stringify(JSONdata));
 	return JSONdata;
 /*
 	var json = [["Emil", "Chair", 2, 10, "A very nice chair"], ["Nhi", "LOAS-sized mattress", 1, 15, "Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]];
 	//{["Emil", "Chair", 2, 10, "A very nice chair\"], [\"Nhi\", \"LOAS-sized mattress\", 1, 15, \"Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]}
     return json;
 	*/
+}
+
+
+// Search function
+function doSearch(criteria) {
+    var jsonData = getPosts();
+    var searchResult = [];
+    //console.log("\n\nCheck: "+JSON.stringify(criteria));
+    for (var i = 0; i < jsonData.length; i++) {       
+        if ((criteria.item == "" || criteria.item == jsonData[i].item) 
+		&& (criteria.username == "" || criteria.username == jsonData[i].username)
+		&& (criteria.startPrice == "" || criteria.startPrice < jsonData[i].price || criteria.startPrice == jsonData[i].price)
+		&& (criteria.maxPrice == "" || criteria.maxPrice > jsonData[i].price || criteria.maxPrice == jsonData[i].price)
+		&& (criteria.funcs == "" || criteria.funcs == jsonData[i].funcs)) 
+		{
+        	searchResult = searchResult.concat(jsonData[i]);
+		}        
+     }
+	 return searchResult;
 }
 
 
@@ -157,6 +176,28 @@ app.get('/newoffer/success', function(req, response)
 	});
 });
 
+app.get('/search', function(req, res) {
+    if( req.query.username == null && req.query.item == null) {
+        res.render('search', {title : 'Search'});
+    }
+    else
+    {
+        var criteria = req.query;
+		
+        var searchResult = doSearch(criteria);
+        console.log("\n\CCCC: "+JSON.stringify(searchResult));
+        res.render('search', 
+			{
+				title: 'Search Result', searchResult
+			}
+		);
+    }
+});
+
+app.get('/searchresult', function(req, res) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});   
+    response.end('Something!!!');
+});
 /// Just some info.
 app.get('/about', function(req, res){
   res.render('about', {
