@@ -8,6 +8,9 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var jsonfile = require('jsonfile');
+var file = 'database.json';
+
 var app = express();
 
 // view engine setup
@@ -28,8 +31,9 @@ function getPosts()
 {
 	var json = [["Emil", "Chair", 2, 10, "A very nice chair"], ["Nhi", "LOAS-sized mattress", 1, 15, "Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]];
 	//{["Emil", "Chair", 2, 10, "A very nice chair\"], [\"Nhi\", \"LOAS-sized mattress\", 1, 15, \"Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]}
-	return json;
+    return json;
 }
+
 
 // Default format. 1 for buy, 2 for sell, 3 for aution.
 // [offererName, nameOfObject, buyOrSellOrAuction1-3, priceDesiredOrStarting, shortDescription]
@@ -47,6 +51,20 @@ app.get('/', function(req, res){
 	console.log(renderResult);
 	
 });
+
+// input data form
+app.get('/input', function(req, res) {
+    res.render('test', {title: 'Add item'});
+});
+
+
+// get data from form (may be store into an XML file)
+app.post('/result', function(req, res) {
+    jsonfile.writeFile(file, req.body, function (err) {
+        console.error(err)
+    });
+    res.send(req.body);
+}); 
 
 /// Service if others want to integrate offers elsewhere?
 app.get('/alldata', function(req, response)
