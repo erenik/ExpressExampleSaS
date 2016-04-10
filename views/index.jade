@@ -19,7 +19,7 @@ block content
 		if post[2] == 3
 			- var action = "auction"
 		
-		li Offer by #{post[0]} to #{action} #{post[1]}, for #{post[3]} euros. Description: #{post[4]}
+		li Offer by #{post.username} to #{action} #{post.item}, for #{post.price} euros. Description: #{post.description}
 		
 //	p All data raw: !{posts}
 

@@ -29,9 +29,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 function getPosts()
 {
+	var JSONdata = [];
+	var readingFile = true;
+	/// Save new offer to file.
+	JSONdata = jsonfile.readFileSync(file);
+	console.log("JSONdata: "+JSON.stringify(JSONdata));
+	return JSONdata;
+/*
 	var json = [["Emil", "Chair", 2, 10, "A very nice chair"], ["Nhi", "LOAS-sized mattress", 1, 15, "Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]];
 	//{["Emil", "Chair", 2, 10, "A very nice chair\"], [\"Nhi\", \"LOAS-sized mattress\", 1, 15, \"Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]}
     return json;
+	*/
 }
 
 
@@ -59,11 +67,52 @@ app.get('/input', function(req, res) {
 
 
 // get data from form (may be store into an XML file)
-app.post('/result', function(req, res) {
-    jsonfile.writeFile(file, req.body, function (err) {
-        console.error(err)
-    });
-    res.send(req.body);
+app.post('/result', function(req, res) 
+{
+	console.log("Req: "+JSON.stringify(req.body));
+	// Catenate manually into array format.
+	var str = ""+req.body.username+", "+req.body.item+", "+req.body.price;
+	console.log("Username: "+str)
+	
+	var JSONString;
+
+	/// Send immediate reply if data is good?
+	res.send(req.body);
+
+	/// Save new offer to file.
+	jsonfile.readFile(file, function (err, obj)
+	{
+		console.log("wat.");
+		var JSONdata = [];
+		if (err)
+		{
+			console.log("BAD FILE! "+err)
+			JSONString = [];
+		}
+		else 
+		{
+			JSONdata = obj;
+			console.log("File exists.")
+		}
+		console.log("JSONString: "+JSONString);
+
+		/// Catenate body from request. 
+		JSONdata = JSONdata.concat(req.body);
+		var newJSONString = JSON.stringify(JSONdata);
+		console.log("newJSONString: "+newJSONString);
+		
+		// Write to file.
+		/*
+		file.appendFile(file, str, function(err){
+			console.error(err)
+		});
+		*/
+		jsonfile.writeFile(file, JSONdata, function (err) 
+		{
+			if(err)
+				console.error(err)
+		});
+	});
 }); 
 
 /// Service if others want to integrate offers elsewhere?
