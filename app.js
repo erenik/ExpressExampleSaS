@@ -57,6 +57,13 @@ app.get('/alldata', function(req, response)
 //	document.close();
 });
 
+app.get('/newoffer', function(req, response)
+{
+	response.render('newoffer', {
+		title: 'New offer'
+	});
+});
+
 /// Just some info.
 app.get('/about', function(req, res){
   res.render('about', {
