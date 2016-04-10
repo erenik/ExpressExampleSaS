@@ -12,11 +12,11 @@ block content
 	p All offers:		
 	ul
 	- for post in posts
-		if post[2] == 1
+		if post.funcs == 1
 			- var action = "buy"
-		if post[2] == 2
+		if post.funcs == 2
 			- var action = "sell"
-		if post[2] == 3
+		if post.funcs == 3
 			- var action = "auction"
 		
 		li Offer by #{post.username} to #{action} #{post.item}, for #{post.price} euros. Description: #{post.description}

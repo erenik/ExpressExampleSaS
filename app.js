@@ -47,6 +47,10 @@ function getPosts()
 // [offererName, nameOfObject, buyOrSellOrAuction1-3, priceDesiredOrStarting, shortDescription]
 
 /// Our site-parts.
+app.get('/index', function(req, res)
+{
+	res.redirect('/');
+});
 /// Index, display some offers?
 app.get('/', function(req, res){
 	var renderResult = res.render('index', 
@@ -66,7 +70,7 @@ app.get('/input', function(req, res) {
 });
 
 
-// get data from form (may be store into an XML file)
+// get data from form - or present error message?
 app.post('/result', function(req, res) 
 {
 	console.log("Req: "+JSON.stringify(req.body));
@@ -74,10 +78,23 @@ app.post('/result', function(req, res)
 	var str = ""+req.body.username+", "+req.body.item+", "+req.body.price;
 	console.log("Username: "+str)
 	
+	// BAD input data! Go back to form and display error message.
+	if (req.body.funcs == null)
+	{
+//		res.send('/newoffer');
+	//	res.location('/newoffer');
+	//	res.send('/newoffer');
+		res.redirect('/newoffer?badFuncs');
+//		res.end();
+		return;
+	}
+		
 	var JSONString;
 
 	/// Send immediate reply if data is good?
-	res.send(req.body);
+	// Re-direct to success screen?
+	res.redirect('/newoffer/success');
+//	res.send(req.body);
 
 	/// Save new offer to file.
 	jsonfile.readFile(file, function (err, obj)
@@ -126,8 +143,17 @@ app.get('/alldata', function(req, response)
 
 app.get('/newoffer', function(req, response)
 {
+	console.log("req: "+req);
 	response.render('newoffer', {
 		title: 'New offer'
+	});
+});
+
+app.get('/newoffer/success', function(req, response)
+{
+	console.log("success!");
+	response.render('newofferSuccess', 
+	{	title: 'Offer posted'
 	});
 });
 

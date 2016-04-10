@@ -1,36 +1,36 @@
 extends layout
 
 block content
-  h1= title
-  form(name="input", action="/result", method="POST")
-    div.input
-        span.label Username  
-        input(type="text", name="username", value="Username")
-        br 
-        br
-    div.input
-        span.label Your item  
-        input(type="text", name="item", value="Item name")
-        br 
-        br
-    div.input
-        input(type="radio", name="funcs", value="1")
-        | Buy
-        input(type="radio", name="funcs", value="2")
-        | Sell
-        input(type="radio", name="funcs", value="3")
-        | Auction
-        br 
-        br
-    div.input
-        span.label Desired price/ starting price: 
-        input(type="text", name="price", value="?")
-    
-        <br> <br>
-        
-        span.label Short Description: 
-        <textarea name = "description" rows="4" cols="50">
-        </textarea>
-
-    div.actions
-        input(type="submit", value="Add", action="/result")
+	h1= title
+	form(name="input", action="/result", method="POST")
+		div.input
+			span.label Username  
+			input(type="text", name="username", value="Username")
+			br 
+			br
+		div.input
+			span.label Your item  
+			input(type="text", name="item", value="Item name")
+			br 
+			br
+		div.input
+			input(type="radio", name="funcs", value="1")
+			| Buy
+			input(type="radio", name="funcs", value="2")
+			| Sell
+			input(type="radio", name="funcs", value="3")
+			| Auction
+			br 
+			br
+		div.input
+			span.label Desired price/ starting price: 
+			input(type="text", name="price", value="?")
+			<br> <br>
+			span.label Short Description: 
+			<textarea name = "description" rows="4" cols="50">
+			</textarea>
+			
+		div.actions
+			input(type="submit", value="Add", action="/result")
+			
+		
