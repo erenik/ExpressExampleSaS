@@ -11,6 +11,9 @@ var users = require('./routes/users');
 var jsonfile = require('jsonfile');
 var file = 'database.json';
 
+var passport = require('passport'); // For login
+// var facebookStrategy = require('passport-facebook').Strategy;
+
 var app = express();
 
 // view engine setup
@@ -42,6 +45,21 @@ function getPosts()
 	*/
 }
 
+/*
+passport.use(new FacebookStrategy({
+		clientID: FACEBOOK_APP_ID,
+		clientSecret: FACEBOOK_APP_SECRET,
+		callbackURL: "localhost:3000/auth/facebook/callback"
+	},
+	function(accessToken, refreshToken, profile, done)
+	{
+		User.findOrCreate(..., function(err, user)
+		{
+			if (err){return done(err);}
+			done(null,user);
+		});
+	}
+));*/
 
 // Search function
 function doSearch(criteria) {
@@ -88,6 +106,11 @@ app.get('/input', function(req, res) {
     res.render('test', {title: 'Add item'});
 });
 
+app.get('/login', passport.authenticate('local', {
+	successRedirect: '/',
+	failureRedirect: '/login'}
+	)
+);
 
 // get data from form - or present error message?
 app.post('/result', function(req, res) 
@@ -103,7 +126,7 @@ app.post('/result', function(req, res)
 //		res.send('/newoffer');
 	//	res.location('/newoffer');
 	//	res.send('/newoffer');
-		res.redirect('/newoffer?badFuncs');
+		res.redirect('/newoffer/badFuncs');
 //		res.end();
 		return;
 	}
@@ -194,10 +217,18 @@ app.get('/search', function(req, res) {
     }
 });
 
-app.get('/searchresult', function(req, res) {
-    response.writeHead(200, {'Content-Type': 'text/plain'});   
-    response.end('Something!!!');
+// Error messages!
+app.get('/newoffer/*', function(req, response)
+{
+	console.log("originalUrl: "+req.originalUrl);
+	var returnCode = req.originalUrl.split("/")[2];
+	console.log("return Code: "+returnCode);
+	response.render('newoffer', {
+		title: 'New offer (try again!)',
+		failureCode: returnCode
+	})
 });
+
 /// Just some info.
 app.get('/about', function(req, res){
   res.render('about', {
