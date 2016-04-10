@@ -1,5 +1,11 @@
 extends layout
 
+style.
+	h1 {
+		font-size: 19px;
+		color: #f00;
+	}
+
 block content
 	h1= title
 	form(name="input", action="/result", method="POST")
@@ -13,6 +19,8 @@ block content
 			input(type="text", name="item", value="Item name")
 			br 
 			br
+		if (failureCode == "badFuncs")
+			e(style=" color: #FF0000") You forgot to select buy/sell/auction action!
 		div.input
 			input(type="radio", name="funcs", value="1")
 			| Buy
@@ -22,6 +30,8 @@ block content
 			| Auction
 			br 
 			br
+		if (failureCode == "badPrice")
+			h3(style=" color: #FF0000") Price invalid.
 		div.input
 			span.label Desired price/ starting price: 
 			input(type="text", name="price", value="?")
@@ -32,5 +42,9 @@ block content
 			
 		div.actions
 			input(type="submit", value="Add", action="/result")
-			
 		
+		
+	extends layout
+
+
+	- console.log("FC: "+failureCode)
