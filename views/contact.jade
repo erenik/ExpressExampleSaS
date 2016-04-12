@@ -1,8 +1,59 @@
-extends layout
-
-block content
-  h1= title
-  p Welcome to #{title}. Emil is da man.
-  p Wowow
-  
-  
+doctype html
+html
+  head
+    title Contact
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='assets/css/main.css')
+  body
+    // Banner
+    section#banner
+      h2
+        strong RECYCLING MARKET
+        br
+        | 				Place for buy&Sell in Lappenranta
+    // One
+    section#one.wrapper.special
+      .inner
+        header.major
+          h2 aBOUT US
+        .features
+          p
+            | Developed by AwesomeTeam
+            br
+            | 					    Emil
+            br
+            | 					    Giang
+            br
+            | 					    Nhi
+            br
+            | 					    HangTing
+    // Two
+    section#two.wrapper.style2.special
+      .inner.narrow
+        header
+          h2 Get in touch
+        form.grid-form(method='post', action='#')
+          .form-control.narrow
+            label(for='name') Name
+            input#name(name='name', type='text')
+          .form-control.narrow
+            label(for='email') Email
+            input#email(name='email', type='email')
+          .form-control
+            label(for='message') Message
+            textarea#message(name='message', rows='4')
+          ul.actions
+            li
+              input(value='Send Message', type='submit')
+    // Footer
+    footer#footer
+      .copyright
+        | © Untitled. Design by AwesomeTeam.
+    // Scripts
+    script(src='assets/js/jquery.min.js')
+    script(src='assets/js/skel.min.js')
+    script(src='assets/js/util.js')
+    //if lte IE 8
+      script(src='assets/js/ie/respond.min.js')
+    script(src='assets/js/main.js')
