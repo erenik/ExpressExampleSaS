@@ -36,10 +36,43 @@ block content
 			span.label Desired price/ starting price: 
 			input(type="text", name="price", value="?")
 			<br> <br>
+		div.input
+			span.label Catagories:
+			select(name='categories')
+				option(name='categories', value='1') Electronic
+				option(name='categories', value='2') Clothes
+				option(name='categories', value='3') Health & Beauty
+				option(name='categories', value='4') Sport & Leisure
+				option(name='categories', value='5') Books & Entertainment
+			br 
+			br
+		div.input
 			span.label Short Description: 
 			<textarea name = "description" rows="4" cols="50">
 			</textarea>
-			
+			<br> <br>
+		div.input
+			span.label Green Contribution:
+			<textarea name = "greenDescription" row="4" cols="50">
+			</textarea>
+			<br><br>
+		div.input
+			span.label Amount of CO2 in the production:
+			input(type="text", name="co2")
+			<br> <br>
+		div.input
+			span.label Green certificate:
+			select(name='greenCert')
+				option(name='greenCert', value='energyStar') Energy Star
+				option(name='greenCert', value='organic') USDA Organic
+				option(name='greenCert', value='bio') USDA Biopreferred
+				option(name='greenCert', value='water') WaterSense TT
+				option(name='greenCert', value='environment') Design for the Environment
+			<br> <br>
+		div.input
+			span.label Item Image:
+			input(type="file", name="image")
+			<br> <br>	
 		div.actions
 			input(type="submit", value="Add", action="/result")
 		
