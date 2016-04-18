@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var fs = require('fs');
 var jsonfile = require('jsonfile');
 var file = 'database.json';
 
@@ -15,6 +16,18 @@ var passport = require('passport'); // For login
 // var facebookStrategy = require('passport-facebook').Strategy;
 
 var app = express();
+
+// Handle file upload
+var multer	=	require('multer');
+var storage	=	multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './public/themes/images/products');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now());
+  }
+});
+var upload = multer({ storage : storage}).single('image');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +41,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 function getPosts()
 {
@@ -123,11 +135,7 @@ app.post('/result', function(req, res)
 	// BAD input data! Go back to form and display error message.
 	if (req.body.funcs == null)
 	{
-//		res.send('/newoffer');
-	//	res.location('/newoffer');
-	//	res.send('/newoffer');
 		res.redirect('/newoffer/badFuncs');
-//		res.end();
 		return;
 	}
 		
@@ -136,7 +144,6 @@ app.post('/result', function(req, res)
 	/// Send immediate reply if data is good?
 	// Re-direct to success screen?
 	res.redirect('/newoffer/success');
-//	res.send(req.body);
 
 	/// Save new offer to file.
 	jsonfile.readFile(file, function (err, obj)
@@ -161,11 +168,29 @@ app.post('/result', function(req, res)
 		console.log("newJSONString: "+newJSONString);
 		
 		// Write to file.
-		/*
-		file.appendFile(file, str, function(err){
-			console.error(err)
-		});
-		*/
+        // Write image
+        upload(req,res,function(err) {
+            if(err)
+                console.error(err)
+	    });
+
+        /*
+        console.log("---BBBBBB\n\n\n : " + JSON.stringify(req.file));
+        fs.readFile(req.file.image.path, function (err, data) {
+            // create new path 
+            console.log("BBBBBB\n\n\n : " + JSON.stringify(req.files));
+            //var newPath = __dirname + "/uploads/uploadedFileName";
+            var newPath = "public/themes/images/products/";
+            newPath = newPath + req.file.image.name + Date.now();
+            console.log("\n\nAAAAA: "+ newPath);
+            fs.writeFile(newPath, data, function (err) {
+                if(err)
+                    console.error(err)
+            });
+        });
+        */
+        
+        // Write json file
 		jsonfile.writeFile(file, JSONdata, function (err) 
 		{
 			if(err)
