@@ -129,6 +129,7 @@ app.get('/login', passport.authenticate('local', {
 // get data from form - or present error message?
 app.post('/result', function(req, res) 
 {
+	console.log("GO GO");
 	// Write image
 	upload(req,res,function(err) {
 		if(err) {
