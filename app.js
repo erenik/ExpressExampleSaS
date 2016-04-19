@@ -251,14 +251,18 @@ app.get('/newoffer/*', function(req, response)
 });
 
 /// Product details page
-app.post('/productdetail', function(req, res){
+app.get('/productdetails', function(req, res){
   res.render('productdetails', {
 	title: 'Product Details'
   });
 });
 
+app.get('/product_details', function(req, res){
+  res.sendFile(__dirname + "/views/product_details.html");
+});
+
 /// User details page
-app.post('/userdetails', function(req, res){
+app.get('/userdetails', function(req, res){
   res.render('userdetails', {
 	title: 'User Details'
   });
