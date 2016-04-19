@@ -250,13 +250,21 @@ app.get('/newoffer/*', function(req, response)
 	})
 });
 
-/// Just some info.
-app.get('/about', function(req, res){
-  res.render('about', {
-	title: 'About'
+/// Product details page
+app.post('/productdetail', function(req, res){
+  res.render('productdetails', {
+	title: 'Product Details'
   });
 });
-/// Contact info?
+
+/// User details page
+app.post('/userdetails', function(req, res){
+  res.render('userdetails', {
+	title: 'User Details'
+  });
+});
+
+/// Contact info
 app.get('/contact', function(req, res){
   res.render('contact', {
 	title: 'Contact'
