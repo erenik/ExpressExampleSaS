@@ -33,7 +33,7 @@ html(lang='en')
               li
                 a(href='/search') Search
               li
-                a(href='/newoffer') New Offers
+                a(href='/newoffer') New Offer
               li
                 a(href='/contact') Contact
               li
@@ -81,75 +81,76 @@ html(lang='en')
                 h5 Payment Methods
           // Products area===============================================
           .span9
-            h4 Search
+            h4 New Offer
             .span6
                 form(name="input", action="/result", method="POST", enctype="multipart/form-data")
-                div.input
-                    | Username  
-                    input(type="text", name="username", value="Username")
-                    br 
-                    br
-                div.input
-                    | Your item  
-                    input(type="text", name="item", value="Item name")
-                    br 
-                    br
-                if (failureCode == "badFuncs")
-                    e(style=" color: #FF0000") You forgot to select buy/sell/auction action!
-                div.input
-                    input(type="radio", name="funcs", value="1", checked)
-                    | Buy
-                    input(type="radio", name="funcs", value="2")
-                    | Sell
-                    input(type="radio", name="funcs", value="3")
-                    | Auction
-                    br 
-                    br
-                if (failureCode == "badPrice")
-                    h3(style=" color: #FF0000") Price invalid.
-                div.input
-                    | Desired price/ starting price: 
-                    input(type="text", name="price", value="?")
-                    <br> <br>
-                div.input
-                    | Catagories:
-                    select(name='categories')
-                        option(name='categories', value='1') Electronic
-                        option(name='categories', value='2') Clothes
-                        option(name='categories', value='3') Health & Beauty
-                        option(name='categories', value='4') Sport & Leisure
-                        option(name='categories', value='5') Books & Entertainment
-                    br 
-                    br
-                div.input
-                    | Short Description: 
-                    <textarea name = "description" rows="4" cols="50">
-                    </textarea>
-                    <br> <br>
-                div.input
-                    | Green Contribution:
-                    <textarea name = "greenDescription" row="4" cols="50">
-                    </textarea>
-                    <br><br>
-                div.input
-                    | Amount of CO2 in the production:
-                    input(type="text", name="co2")
-                    <br> <br>
-                div.input
-                    | Green certificate:
-                    select(name='greenCert')
-                        option(name='greenCert', value='energyStar') Energy Star
-                        option(name='greenCert', value='organic') USDA Organic
-                        option(name='greenCert', value='bio') USDA Biopreferred
-                        option(name='greenCert', value='water') WaterSense TT
-                        option(name='greenCert', value='environment') Design for the Environment
-                    <br> <br>
-                div.input
-                    | Item Image:
-                    input(type="file", name="image", enctype="multipart/form-data")
-                    <br> <br>	
-                div.actions
-                    input(type="submit", value="Add", action="/result")
+                    div.input
+                        | Username  
+                        input(type="text", name="username", value="Username")
+                        br 
+                        br
+                    div.input
+                        | Your item  
+                        input(type="text", name="item", value="Item name")
+                        br 
+                        br
+                    if (failureCode == "badFuncs")
+                        e(style=" color: #FF0000") You forgot to select buy/sell/auction action!
+                    div.input
+                        input(type="radio", name="funcs", value="1", checked)
+                        | Buy
+                        input(type="radio", name="funcs", value="2")
+                        | Sell
+                        input(type="radio", name="funcs", value="3")
+                        | Auction
+                        br 
+                        br
+                    if (failureCode == "badPrice")
+                        h3(style=" color: #FF0000") Price invalid.
+                    div.input
+                        | Desired price/ starting price: 
+                        input(type="text", name="price", value="?")
+                        <br> <br>
+                    div.input
+                        | Catagories:
+                        select(name='categories')
+                            option(name='categories', value='1') Electronic
+                            option(name='categories', value='2') Clothes
+                            option(name='categories', value='3') Health & Beauty
+                            option(name='categories', value='4') Sport & Leisure
+                            option(name='categories', value='5') Books & Entertainment
+                        br 
+                        br
+                    div.input
+                        | Short Description: 
+                        <textarea name = "description" rows="4" cols="50">
+                        </textarea>
+                        <br> <br>
+                    div.input
+                        | Green Contribution:
+                        <textarea name = "greenDescription" row="4" cols="50">
+                        </textarea>
+                        <br><br>
+                    div.input
+                        | Amount of CO2 in the production:
+                        input(type="text", name="co2")
+                        <br> <br>
+                    div.input
+                        | Green certificate:
+                        select(name='greenCert')
+                            option(name='greenCert', value='energyStar') Energy Star
+                            option(name='greenCert', value='organic') USDA Organic
+                            option(name='greenCert', value='bio') USDA Biopreferred
+                            option(name='greenCert', value='water') WaterSense
+                            option(name='greenCert', value='environment') Design for the Environment
+                        <br> <br>
+                    div.input
+                        | Item Image:
+                        input(type="file", name="image", enctype="multipart/form-data")
+                        <br> <br>	
+                    div.actions
+                        input(type="submit", value="Add Offer", action="/result")
+                    
       // Footer ==================================================================
       #footerSection
         .container
