@@ -84,67 +84,20 @@ html(lang='en')
             h4 Products 
             ul.thumbnails
               // ROUND 1 =============================
-              li.span3
-                .thumbnail
-                  a(href='/productdetails')
-                    img(src='themes/images/products/index_page/1.jpg', alt='')
-                  .caption
-                    h5 Product 1
-                    p
-                      | Lorem Ipsum is simply dummy text.
-                    h4(style='text-align:center')
-                      a.btn(href='/productdetails')
-                        i.icon-zoom-in
-                      a.btn.btn-primary(href='#') $222.00
-              li.span3
-                .thumbnail
-                  a(href='#')
-                    img(src='themes/images/products/index_page/2.jpg', alt='')
-                  .caption
-                    h5 Product name
-                    p
-                      | Lorem Ipsum is simply dummy text.
-                    h4(style='text-align:center')
-                      a.btn(href='#')
-                        i.icon-zoom-in
-                      a.btn.btn-primary(href='#') $222.00
-              li.span3
-                .thumbnail
-                  a(href='#')
-                    img(src='themes/images/products/index_page/3.jpg', alt='')
-                  .caption
-                    h5 Product name
-                    p
-                      | Lorem Ipsum is simply dummy text.
-                    h4(style='text-align:center')
-                      a.btn(href='#')
-                        i.icon-zoom-in
-                      a.btn.btn-primary(href='#') $222.00
-              // ROUND 2 =============================
-              li.span3
-                .thumbnail
-                  a(href='#')
-                    img(src='themes/images/products/index_page/4.jpg', alt='')
-                  .caption
-                    h5 Product name
-                    p
-                      | Lorem Ipsum is simply dummy text.
-                    h4(style='text-align:center')
-                      a.btn(href='#')
-                        i.icon-zoom-in
-                      a.btn.btn-primary(href='#') $222.00
-              li.span3
-                .thumbnail
-                  a(href='#')
-                    img(src='themes/images/products/index_page/5.jpg', alt='')
-                  .caption
-                    h5 Product name
-                    p
-                      | Lorem Ipsum is simply dummy text.
-                    h4(style='text-align:center')
-                      a.btn(href='#')
-                        i.icon-zoom-in
-                      a.btn.btn-primary(href='#') $222.00
+              - for post in posts
+                    - var image = "themes/images/products/" + post.image
+                    li.span3
+                        .thumbnail
+                        a(href='product_details.html')
+                            img(src="themes/images/products/" + post.image, alt='')
+                        .caption
+                            h5 #{post.item}
+                            p
+                            | #{post.description}
+                            h4(style='text-align:center')
+                            a.btn(href='product_details.html')
+                                i.icon-zoom-in
+                            a.btn.btn-primary(href='#') $#{post.price}
     // Footer ==================================================================
     #footerSection
       .container
