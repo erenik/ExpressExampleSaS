@@ -19,12 +19,14 @@ var app = express();
 
 // Handle file upload
 var multer	=	require('multer');
+var fileName = "";
 var storage	=	multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, './public/themes/images/products');
+	callback(null, './public/themes/images/products');
   },
   filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now());
+	  fileName = file.fieldname + '-' + Date.now();
+	callback(null, fileName);
   }
 });
 var upload = multer({ storage : storage}).single('image');
@@ -53,7 +55,7 @@ function getPosts()
 /*
 	var json = [["Emil", "Chair", 2, 10, "A very nice chair"], ["Nhi", "LOAS-sized mattress", 1, 15, "Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]];
 	//{["Emil", "Chair", 2, 10, "A very nice chair\"], [\"Nhi\", \"LOAS-sized mattress\", 1, 15, \"Hi! I need a LOAS-sized mattress for the new apartment I am moving to!"]}
-    return json;
+	return json;
 	*/
 }
 
@@ -75,19 +77,19 @@ passport.use(new FacebookStrategy({
 
 // Search function
 function doSearch(criteria) {
-    var jsonData = getPosts();
-    var searchResult = [];
-    //console.log("\n\nCheck: "+JSON.stringify(criteria));
-    for (var i = 0; i < jsonData.length; i++) {       
-        if ((criteria.item == "" || criteria.item == jsonData[i].item) 
+	var jsonData = getPosts();
+	var searchResult = [];
+	//console.log("\n\nCheck: "+JSON.stringify(criteria));
+	for (var i = 0; i < jsonData.length; i++) {       
+		if ((criteria.item == "" || criteria.item == jsonData[i].item) 
 		&& (criteria.username == "" || criteria.username == jsonData[i].username)
 		&& (criteria.startPrice == "" || criteria.startPrice < jsonData[i].price || criteria.startPrice == jsonData[i].price)
 		&& (criteria.maxPrice == "" || criteria.maxPrice > jsonData[i].price || criteria.maxPrice == jsonData[i].price)
 		&& (criteria.funcs == "" || criteria.funcs == jsonData[i].funcs)) 
 		{
-        	searchResult = searchResult.concat(jsonData[i]);
+			searchResult = searchResult.concat(jsonData[i]);
 		}        
-     }
+	 }
 	 return searchResult;
 }
 
@@ -115,7 +117,7 @@ app.get('/', function(req, res){
 
 // input data form
 app.get('/input', function(req, res) {
-    res.render('test', {title: 'Add item'});
+	res.render('test', {title: 'Add item'});
 });
 
 app.get('/login', passport.authenticate('local', {
@@ -127,28 +129,26 @@ app.get('/login', passport.authenticate('local', {
 // get data from form - or present error message?
 app.post('/result', function(req, res) 
 {
-	console.log("Req: "+JSON.stringify(req.body));
-	// Catenate manually into array format.
-	var str = ""+req.body.username+", "+req.body.item+", "+req.body.price;
-	console.log("Username: "+str)
+	// Write image
+	upload(req,res,function(err) {
+		if(err) {
+			console.error(err);		
+		}
+	});
 	
+	/*
 	// BAD input data! Go back to form and display error message.
 	if (req.body.funcs == null)
 	{
 		res.redirect('/newoffer/badFuncs');
 		return;
 	}
-		
+	*/
 	var JSONString;
-
-	/// Send immediate reply if data is good?
-	// Re-direct to success screen?
-	res.redirect('/newoffer/success');
-
+	
 	/// Save new offer to file.
 	jsonfile.readFile(file, function (err, obj)
 	{
-		console.log("wat.");
 		var JSONdata = [];
 		if (err)
 		{
@@ -163,41 +163,37 @@ app.post('/result', function(req, res)
 		console.log("JSONString: "+JSONString);
 
 		/// Catenate body from request. 
+		req.body.image = fileName;
 		JSONdata = JSONdata.concat(req.body);
 		var newJSONString = JSON.stringify(JSONdata);
-		console.log("newJSONString: "+newJSONString);
+		console.log("new JSONString: "+newJSONString);
 		
-		// Write to file.
-        // Write image
-        upload(req,res,function(err) {
-            if(err)
-                console.error(err)
-	    });
-
-        /*
-        console.log("---BBBBBB\n\n\n : " + JSON.stringify(req.file));
-        fs.readFile(req.file.image.path, function (err, data) {
-            // create new path 
-            console.log("BBBBBB\n\n\n : " + JSON.stringify(req.files));
-            //var newPath = __dirname + "/uploads/uploadedFileName";
-            var newPath = "public/themes/images/products/";
-            newPath = newPath + req.file.image.name + Date.now();
-            console.log("\n\nAAAAA: "+ newPath);
-            fs.writeFile(newPath, data, function (err) {
-                if(err)
-                    console.error(err)
-            });
-        });
-        */
-        
-        // Write json file
+		
+		// Write json file
 		jsonfile.writeFile(file, JSONdata, function (err) 
 		{
 			if(err)
 				console.error(err)
 		});
 	});
+	
+	/// Send immediate reply if data is good?
+	// Re-direct to success screen?
+	res.redirect('/newoffer/success');
 }); 
+
+
+app.post('/api/photo',function(req,res){
+	upload(req,res,function(err) {
+		if(err) {
+			console.error(err);
+			return res.end("Error uploading file.");
+			
+		}
+		res.end("File is uploaded " + JSON.stringify(req.body.username));
+		console.log("\n\n\nLOGGGGGG:::::: " + JSON.stringify(req.body));
+	});
+});
 
 /// Service if others want to integrate offers elsewhere?
 app.get('/alldata', function(req, response)
@@ -225,21 +221,21 @@ app.get('/newoffer/success', function(req, response)
 });
 
 app.get('/search', function(req, res) {
-    if( req.query.username == null && req.query.item == null) {
-        res.render('search', {title : 'Search'});
-    }
-    else
-    {
-        var criteria = req.query;
+	if( req.query.username == null && req.query.item == null) {
+		res.render('search', {title : 'Search'});
+	}
+	else
+	{
+		var criteria = req.query;
 		
-        var searchResult = doSearch(criteria);
-        console.log("\n\CCCC: "+JSON.stringify(searchResult));
-        res.render('search', 
+		var searchResult = doSearch(criteria);
+		console.log("\n\CCCC: "+JSON.stringify(searchResult));
+		res.render('search', 
 			{
 				title: 'Search Result', searchResult
 			}
 		);
-    }
+	}
 });
 
 // Error messages!
@@ -257,13 +253,13 @@ app.get('/newoffer/*', function(req, response)
 /// Just some info.
 app.get('/about', function(req, res){
   res.render('about', {
-    title: 'About'
+	title: 'About'
   });
 });
 /// Contact info?
 app.get('/contact', function(req, res){
   res.render('contact', {
-    title: 'Contact'
+	title: 'Contact'
   });
 });
 
@@ -283,11 +279,11 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
+	res.status(err.status || 500);
+	res.render('error', {
+	  message: err.message,
+	  error: err
+	});
   });
 }
 
@@ -296,8 +292,8 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
-    message: err.message,
-    error: {}
+	message: err.message,
+	error: {}
   });
 });
 
