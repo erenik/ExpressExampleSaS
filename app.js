@@ -180,7 +180,7 @@ app.post('/result', function(req, res)
 	
 	/// Send immediate reply if data is good?
 	// Re-direct to success screen?
-	res.redirect('/newoffer/success');
+	res.redirect('/newofferSuccess');
 }); 
 
 
@@ -213,7 +213,7 @@ app.get('/newoffer', function(req, response)
 	});
 });
 
-app.get('/newoffer/success', function(req, response)
+app.get('/newofferSuccess', function(req, response)
 {
 	console.log("success!");
 	response.render('newofferSuccess', 
