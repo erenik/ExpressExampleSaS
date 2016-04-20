@@ -269,6 +269,41 @@ app.get('/userdetails', function(req, res){
   });
 });
 
+/// Electronic products page
+app.get('/electronic_products', function(req, res){
+  res.render('electronic_products', {
+	title: 'Electronic Products'
+  });
+});
+
+/// Clothes products page
+app.get('/clothes_products', function(req, res){
+  res.render('clothes_products', {
+	title: 'Clothes Products'
+  });
+});
+
+/// Health products page
+app.get('/health_products', function(req, res){
+  res.render('health_products', {
+	title: 'Health Products'
+  });
+});
+
+/// Sport products page
+app.get('/sport_products', function(req, res){
+  res.render('sport_products', {
+	title: 'Sport Products'
+  });
+});
+
+/// Books products page
+app.get('/books_products', function(req, res){
+  res.render('books_products', {
+	title: 'Books Products'
+  });
+});
+
 /// Contact info
 app.get('/contact', function(req, res){
   res.render('contact', {
