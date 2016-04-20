@@ -88,14 +88,14 @@ html(lang='en')
                     - var image = "themes/images/products/" + post.image
                     li.span3
                         .thumbnail
-                        a(href='product_details.html')
+                        a(href='/productdetails')
                             img(src="themes/images/products/" + post.image, alt='')
                         .caption
                             h5 #{post.item}
                             p
                             | #{post.description}
                             h4(style='text-align:center')
-                            a.btn(href='product_details.html')
+                            a.btn(href='/productdetails')
                                 i.icon-zoom-in
                             a.btn.btn-primary(href='#') $#{post.price}
     // Footer ==================================================================

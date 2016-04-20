@@ -27,7 +27,7 @@ html(lang='en')
         // Navbar ==================================================
         #logoArea.navbar
           .navbar-inner
-            a.brand(href='index.html')
+            a.brand(href='/')
               img(src='themes/images/logo.png', alt='Bootsshop')
             ul#topMenu.nav.pull-right
               li
@@ -115,18 +115,27 @@ html(lang='en')
                 div.actions
                     input(type="submit", value="Search", action="/search")
                 -if (searchResult != null)
-                    p Result:		
-                    ul
-                    - for post in searchResult
-                        if post.funcs == 1
-                            - var action = "buy"
-                        if post.funcs == 2
-                            - var action = "sell"
-                        if post.funcs == 3
-                            - var action = "auction"
-                        li Offer by #{post.username} to #{action} #{post.item}, for #{post.price} euros. Description: #{post.description}
+                    // Products area===============================================
+                    .span9
+                        h4 Results 
+                        ul.thumbnails
+                        // ROUND 1 =============================
+                        - for post in searchResult
+                                - var image = "themes/images/products/" + post.image
+                                li.span3
+                                    .thumbnail
+                                    a(href='/productdetails')
+                                        img(src="themes/images/products/" + post.image, alt='')
+                                    .caption
+                                        h5 #{post.item}
+                                        p
+                                        | #{post.description}
+                                        h4(style='text-align:center')
+                                        a.btn(href='/productdetails')
+                                            i.icon-zoom-in
+                                        a.btn.btn-primary(href='#') $#{post.price}
                 -else
-                    p No result
+                    h4 No Result! 
       // Footer ==================================================================
       #footerSection
         .container
